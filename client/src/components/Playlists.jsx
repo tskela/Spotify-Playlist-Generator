@@ -1,19 +1,24 @@
-import React from "react";
+import React, { useContext } from "react";
+import { UserContext } from "../providers/UserProvider.jsx";
 
-class Playlists extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {};
-  }
+const Playlists = (props) => {
+  const user = useContext(UserContext);
+  const { playlists } = user;
 
-  render() {
-    console.log(this.props.playlists);
-    return (
+  const savedPlaylists =
+    playlists && playlists.map((playlist) => <div>{playlist.name}</div>);
+
+  const recentlySaved = props.saved && <div>{props.saved[0]}</div>;
+
+  return (
+    <div>
+      <h3>Your Saved Playlists</h3>{" "}
       <div>
-        <div>Your Playlists</div>
+        {savedPlaylists}
+        <div>{recentlySaved}</div>
       </div>
-    );
-  }
-}
+    </div>
+  );
+};
 
 export default Playlists;

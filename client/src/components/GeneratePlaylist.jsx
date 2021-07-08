@@ -119,7 +119,8 @@ class GeneratePlaylist extends React.Component {
         </form>
         <DisplayNewPlaylist
           generated={this.state.generated}
-          uid={this.props.uid}
+          save={this.state.savePlaylist}
+          displaySaved={this.props.displaySaved}
         />
       </div>
     );
