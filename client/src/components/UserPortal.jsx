@@ -1,22 +1,22 @@
-import React from "react";
+import React, { useContext } from "react";
+import { UserContext } from "../providers/UserProvider.jsx";
+import { signOut } from "../firebase.js";
 import Playlists from "./Playlists.jsx";
 import GeneratePlaylist from "./GeneratePlaylist.jsx";
 
-class UserPortal extends React.Component {
-  constructor(props) {
-    super(props);
-  }
+const UserPortal = () => {
+  const user = useContext(UserContext);
+  const { uid, photoURL, displayName, email, playlists } = user;
+  console.log(user);
 
-  render() {
-    return (
-      <div>
-        <div>Welcome {this.props.displayName}</div>
-        <button onClick={this.props.onSignOut}>Sign Out</button>
-        <Playlists playlists={this.props.playlists}/>
-        <GeneratePlaylist uid={this.props.uid} />
-      </div>
-    );
-  }
-}
+  return (
+    <div>
+      <div>Welcome {displayName}</div>
+      <button onClick={() => signOut()}>Sign Out</button>
+      <Playlists playlists={playlists} />
+      <GeneratePlaylist uid={uid} />
+    </div>
+  );
+};
 
 export default UserPortal;
