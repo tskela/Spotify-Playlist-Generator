@@ -1,6 +1,7 @@
 import React, { useContext, useState, useEffect } from "react";
 import { UserContext } from "../providers/UserProvider.jsx";
 import { savePlaylist } from "../firebase.js";
+import SpotifyPlayer from "react-spotify-player";
 
 const DisplayNewPlaylist = (props) => {
   const user = useContext(UserContext);
@@ -26,18 +27,26 @@ const DisplayNewPlaylist = (props) => {
       .catch((err) => console.log(err));
   };
 
+  const size = {
+    width: "20%",
+    height: 100,
+  };
+
+  const view = "list";
+
+  const theme = "black";
+
   const tracks = playlist.map((track) => {
     return (
       <div>
-        <span>{track.title}</span>
-        {track.artist}
+        <SpotifyPlayer uri={track.uri} size={size} view={view} theme={theme} />
       </div>
     );
   });
 
-  const save = (playlist.length && (
+  const save = playlist.length ? (
     <button onClick={(e) => handleSave(e)}> Save Playlist</button>
-  ));
+  ) : null;
 
   return (
     <div>

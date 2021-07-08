@@ -54,6 +54,7 @@ class GeneratePlaylist extends React.Component {
       var trackInfo = {
         title: track.name,
         artist: track.artists[0].name,
+        uri: track.uri,
       };
 
       playlist.push(trackInfo);
