@@ -10,6 +10,9 @@ class GeneratePlaylist extends React.Component {
       seed_genres: "",
       seed_tracks: "",
       seed_artists: "",
+      danceability: 0,
+      energy: 0,
+      tempo: 40,
       generated: [],
     };
 
@@ -34,6 +37,9 @@ class GeneratePlaylist extends React.Component {
       seed_genres: this.state.seed_genres,
       seed_artists: this.state.seed_artists,
       seed_tracks: this.state.seed_tracks,
+      danceability: this.state.danceability / 100,
+      energy: this.state.energy / 100,
+      tempo: this.state.tempo
     };
 
     $.ajax({
@@ -114,10 +120,54 @@ class GeneratePlaylist extends React.Component {
               onChange={this.handleInputChange}
             />
           </label>
+          <br />
+          <br />
+          <label>
+            Danceability:
+            <br />
+            <input
+              type="range"
+              min="0"
+              max="100"
+              name="danceability"
+              value={this.state.danceability}
+              onChange={this.handleInputChange}
+            />
+          </label>
+          <br />
+          <br />
+          <label>
+            Energy:
+            <br />
+            <input
+              type="range"
+              min="0"
+              max="100"
+              name="energy"
+              value={this.state.energy}
+              onChange={this.handleInputChange}
+            />
+          </label>
+          <br />
+          <br />
+          <label>
+            Tempo {"40-200bpm"}:
+            <br />
+            <input
+              type="range"
+              min="40"
+              max="200"
+              name="tempo"
+              value={this.state.tempo}
+              onChange={this.handleInputChange}
+            />
+          </label>
+          <br />
           <button type="submit" value="Generate">
             Generate
           </button>
         </form>
+        <br />
         <DisplayNewPlaylist
           generated={this.state.generated}
           save={this.state.savePlaylist}
