@@ -1,6 +1,7 @@
 import React from "react";
 import UserPortal from "./UserPortal.jsx";
 import { signIn, signOut, auth, generateUserDocument } from "../firebase.js";
+import Button from "react-bootstrap/Button";
 
 class SignIn extends React.Component {
   constructor() {
@@ -9,13 +10,24 @@ class SignIn extends React.Component {
 
   render() {
     return (
-      <button
-        onClick={() => {
-          signIn();
+      <div
+        style={{
+          position: "absolute",
+          textAlign: "center",
+          top: "50%",
+          bottom: "50%",
+          width: "100%",
         }}
       >
-        Sign in with Google
-      </button>
+        <h1>Playlist Generator</h1>
+        <Button
+          onClick={() => {
+            signIn();
+          }}
+        >
+          Sign in with Google
+        </Button>
+      </div>
     );
   }
 }

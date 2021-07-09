@@ -1,6 +1,7 @@
 import React from "react";
 import $ from "jquery";
 import DisplayNewPlaylist from "./DisplayNewPlaylist.jsx";
+import Button from "react-bootstrap/Button";
 
 class GeneratePlaylist extends React.Component {
   constructor(props) {
@@ -8,7 +9,6 @@ class GeneratePlaylist extends React.Component {
     this.state = {
       limit: "",
       seed_genres: "",
-      seed_tracks: "",
       seed_artists: "",
       danceability: 0,
       energy: 0,
@@ -36,7 +36,6 @@ class GeneratePlaylist extends React.Component {
       limit: this.state.limit,
       seed_genres: this.state.seed_genres,
       seed_artists: this.state.seed_artists,
-      seed_tracks: this.state.seed_tracks,
       danceability: this.state.danceability / 100,
       energy: this.state.energy / 100,
       tempo: this.state.tempo
@@ -79,6 +78,7 @@ class GeneratePlaylist extends React.Component {
           <label>
             Number of songs:
             <input
+              style={{marginLeft: "10px"}}
               type="number"
               min={0}
               max={25}
@@ -92,6 +92,7 @@ class GeneratePlaylist extends React.Component {
           <label>
             Pick a seed genre:
             <input
+              style={{marginLeft: "10px"}}
               type="text"
               name="seed_genres"
               value={this.state.seed_genres}
@@ -103,20 +104,10 @@ class GeneratePlaylist extends React.Component {
           <label>
             Pick a seed artist:
             <input
+              style={{marginLeft: "10px"}}
               type="text"
               name="seed_artists"
               value={this.state.seed_artists}
-              onChange={this.handleInputChange}
-            />
-          </label>
-          <br />
-          <br />
-          <label>
-            Pick a seed track:
-            <input
-              type="text"
-              name="seed_tracks"
-              value={this.state.seed_tracks}
               onChange={this.handleInputChange}
             />
           </label>
@@ -163,9 +154,9 @@ class GeneratePlaylist extends React.Component {
             />
           </label>
           <br />
-          <button type="submit" value="Generate">
+          <Button type="submit" value="Generate">
             Generate
-          </button>
+          </Button>
         </form>
         <br />
         <DisplayNewPlaylist

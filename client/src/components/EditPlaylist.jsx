@@ -3,6 +3,7 @@ import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import { editPlaylist } from "../firebase.js";
+import { deletePlaylist } from "../firebase.js";
 import { UserContext } from "../providers/UserProvider.jsx";
 import Card from "react-bootstrap/Card";
 import Accordion from "react-bootstrap/Accordion";
@@ -27,8 +28,9 @@ function EditPlaylist(props) {
     }
     if (props.index) {
       setIndex(props.index);
-    } if (props.uri) {
-      setURI(props.uri)
+    }
+    if (props.uri) {
+      setURI(props.uri);
     }
   }, [props.name, props.tracks, props.index, props.uri]);
 
@@ -56,26 +58,50 @@ function EditPlaylist(props) {
     });
   };
 
+  // const handleDelete = () => {
+  //   var playlist;
+
+  //   if (uri) {
+  //     playlist = {
+  //       name: title,
+  //       tracks: tracks,
+  //       uri: playlistUri,
+  //     };
+  //   } else {
+  //     playlist = {
+  //       name: title,
+  //       tracks: tracks,
+  //     };
+  //   }
+
+  //   deletePlaylist(uid, playlist)
+  // };
+
   var playlistButton = title ? (
     <>
-      <Button style={{ margin: "10px 5px" }} variant="primary">
-        Delete Playlist
-      </Button>
       <SpotifyLogin create={createPlaylist} />
     </>
   ) : null;
 
   var songs = tracks
     ? tracks.map((track) => (
-        <div>
-          <span>{track.title}</span>
-          <span>{track.artist}</span>
+        <div style={{ margin: "10px 0px" }}>
+          <span style={{ color: "#0275d8", marginRight: "5px" }}>
+            {track.title} -{" "}
+          </span>
+          <span style={{ color: "#989898" }}>{track.artist}</span>
         </div>
       ))
     : null;
 
-  var embedded = playlistUri ? <SpotifyPlayer uri={playlistUri} view="list" theme="white"/> :
-  null
+  var embedded = playlistUri ? (
+    <SpotifyPlayer
+      size={{ width: "100%", height: 300 }}
+      uri={playlistUri}
+      view="list"
+      theme="white"
+    />
+  ) : null;
 
   return (
     <>

@@ -45,50 +45,72 @@ app.get("/userInfo", async (req, res) => {
   const data = await fetch(`https://api.spotify.com/v1/me`, {
     method: "GET",
     headers: { Authorization: "Bearer " + req.query.token },
-  })
+  });
 
-  const response = await(data.json());
+  const response = await data.json();
 
-  console.log(response)
+  console.log(response);
 
-  const newPlaylist = await fetch(`https://api.spotify.com/v1/users/${response.id}/playlists`, {
-    method: "POST",
-    headers: { Authorization: "Bearer " + req.query.token },
-    body: JSON.stringify({
-      "name": `${req.query.name}`,
-      "description": "New playlist description",
-      "public": true
-    })
-  })
+  const newPlaylist = await fetch(
+    `https://api.spotify.com/v1/users/${response.id}/playlists`,
+    {
+      method: "POST",
+      headers: { Authorization: "Bearer " + req.query.token },
+      body: JSON.stringify({
+        name: `${req.query.name}`,
+        description: "New playlist description",
+        public: true,
+      }),
+    }
+  );
 
-  const created = await(newPlaylist.json())
+  const created = await newPlaylist.json();
 
-  const addTracks = await fetch(`https://api.spotify.com/v1/playlists/${created.id}/tracks?uris=${req.query.uris}`, {
-    method: "POST",
-    headers: { Authorization: "Bearer " + req.query.token, ContentLength: 0 },
-  })
+  const addTracks = await fetch(
+    `https://api.spotify.com/v1/playlists/${created.id}/tracks?uris=${req.query.uris}`,
+    {
+      method: "POST",
+      headers: { Authorization: "Bearer " + req.query.token, ContentLength: 0 },
+    }
+  );
 
-  console.log(addTracks, created.uri)
+  console.log(addTracks, created.uri);
   res.end(created.uri);
 });
 
 app.post("/recommendations", (req, res) => {
-  console.log(req);
   spotifyApi
     .clientCredentialsGrant()
     .then((data) => {
       spotifyApi.setAccessToken(data.body["access_token"]);
-
-      return spotifyApi.getRecommendations({
-        limit: req.body.limit,
-        market: "US",
-        seed_artists: req.body.seed_artists,
-        seed_genres: req.body.seed_genres,
-        seed_tracks: req.body.seed_tracks,
-        target_danceability: req.body.target_danceability,
-        target_energy: req.body.energy,
-        target_tempo: req.body.tempo
-      });
+      if (req.body.seed_artists) {
+        return spotifyApi
+          .searchArtists(`${req.body.seed_artists}`)
+          .then((response) => {
+            console.log(response.body);
+            return spotifyApi.getRecommendations({
+              limit: req.body.limit,
+              market: "US",
+              seed_artists: response.body.artists.items[0].id,
+              seed_genres: req.body.seed_genres,
+              seed_tracks: req.body.seed_tracks,
+              target_danceability: req.body.target_danceability,
+              target_energy: req.body.energy,
+              target_tempo: req.body.tempo,
+            });
+          });
+      } else {
+        return spotifyApi.getRecommendations({
+          limit: req.body.limit,
+          market: "US",
+          seed_artists: req.body.seed_artists,
+          seed_genres: req.body.seed_genres,
+          seed_tracks: req.body.seed_tracks,
+          target_danceability: req.body.target_danceability,
+          target_energy: req.body.energy,
+          target_tempo: req.body.tempo,
+        });
+      }
     })
     .then(
       function (data) {
