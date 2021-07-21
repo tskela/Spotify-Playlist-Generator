@@ -4,11 +4,11 @@
 
 ### Get Recommendations
 
-[!Get Recommendations](Get-Recommendations.gif)
+![Get Recommendations](Get-Recommendations.gif)
 
 ### Save Playlist
 
-[!Save Playlist](Save-Playlist.gif)
+![Save Playlist](Save-Playlist.gif)
 
 ## Technologies Used
 
