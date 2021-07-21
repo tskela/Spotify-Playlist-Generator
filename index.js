@@ -20,7 +20,6 @@ app.get("/", (req, res) => {
 });
 
 app.get("/login", function (req, res) {
-  console.log("is this working?");
   var scopes = "playlist-modify-public playlist-modify-private";
   res.redirect(
     "https://accounts.spotify.com/authorize" +
@@ -41,15 +40,12 @@ var spotifyApi = new SpotifyWebApi({
 const scopes = ["playlist-modify-public", "playlist-modify-private"];
 
 app.get("/userInfo", async (req, res) => {
-  console.log(req.query);
   const data = await fetch(`https://api.spotify.com/v1/me`, {
     method: "GET",
     headers: { Authorization: "Bearer " + req.query.token },
   });
 
   const response = await data.json();
-
-  console.log(response);
 
   const newPlaylist = await fetch(
     `https://api.spotify.com/v1/users/${response.id}/playlists`,
@@ -74,7 +70,6 @@ app.get("/userInfo", async (req, res) => {
     }
   );
 
-  console.log(addTracks, created.uri);
   res.end(created.uri);
 });
 
@@ -87,7 +82,6 @@ app.post("/recommendations", (req, res) => {
         return spotifyApi
           .searchArtists(`${req.body.seed_artists}`)
           .then((response) => {
-            console.log(response.body);
             return spotifyApi.getRecommendations({
               limit: req.body.limit,
               market: "US",

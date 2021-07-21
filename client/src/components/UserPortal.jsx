@@ -17,8 +17,6 @@ const UserPortal = () => {
     setSaved([name, tracks]);
   };
 
-  console.log(photoURL);
-
   return (
     <div>
       <Container fluid>

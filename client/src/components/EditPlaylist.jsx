@@ -47,7 +47,6 @@ function EditPlaylist(props) {
       data: { token: token, uris: uris, name: title },
       contentType: "application/json",
       success: (data) => {
-        console.log(data);
         setURI(data);
         editPlaylist(
           uid,
